@@ -1,13 +1,16 @@
 class Song
 
+  # the album attribute can be accessed.
   attr_accessor :name, :album, :id
 
+  #  when initialized with a name, album and id set to nil.
   def initialize(name:, album:, id: nil)
     @name = name
     @album = album
     @id = id
   end
 
+  # creates the songs table in the database
   def self.create_table
     sql =  <<-SQL
       CREATE TABLE IF NOT EXISTS songs (
@@ -19,13 +22,14 @@ class Song
     DB[:conn].execute(sql)
   end 
 
+  # saves an instance of the Song class to the database.
   def save
     sql = <<-SQL 
       INSERT INTO songs (name, album)
       VALUES (?, ?)
     SQL
 
-      # inserts the song.
+    # inserts the song.
     DB[:conn].execute(sql, self.name, self.album)
 
     # gets the song ID from the database and save it to the Ruby instance.
@@ -35,7 +39,7 @@ class Song
     self
   end
 
-  # cretaes an object and then saves a record representing that object.
+    # cretaes an object and then saves a record representing that object.
   def self.create(name:, album:)
     song = Song.new(name: name, album: album)
     song.save
