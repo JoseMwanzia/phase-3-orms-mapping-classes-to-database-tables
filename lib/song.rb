@@ -35,6 +35,7 @@ class Song
     self
   end
 
+  # cretaes an object and then saves a record representing that object.
   def self.create(name:, album:)
     song = Song.new(name: name, album: album)
     song.save
